@@ -19,7 +19,7 @@ Before you start, ensure you have:
 ## Getting Started
 ### 1️⃣ Clone this repository
 ```sh
-git clone https://github.com/YOUR_GITHUB_USERNAME/docker-mariadb-galera.git
+git clone https://github.com/X-MultiByte/docker-mariadb-galera.git
 cd docker-mariadb-galera
 ```
 
