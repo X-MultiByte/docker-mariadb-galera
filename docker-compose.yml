@@ -1,0 +1,62 @@
+services:
+  mariadb-node1:
+    image: mariadb:10.5
+    container_name: mariadb-node1
+    restart: always
+    networks:
+      - galera-cluster
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypassword
+      WSREP_CLUSTER_ADDRESS: "gcomm://mariadb-node2,mariadb-node3"
+      WSREP_NODE_NAME: "node1"
+    volumes:
+      - mariadb-data-node1:/var/lib/mysql
+    ports:
+      - "3307:3306"
+
+  mariadb-node2:
+    image: mariadb:10.5
+    container_name: mariadb-node2
+    restart: always
+    networks:
+      - galera-cluster
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypassword
+      WSREP_CLUSTER_ADDRESS: "gcomm://mariadb-node1,mariadb-node3"
+      WSREP_NODE_NAME: "node2"
+    volumes:
+      - mariadb-data-node2:/var/lib/mysql
+    ports:
+      - "3308:3306"
+
+  mariadb-node3:
+    image: mariadb:10.5
+    container_name: mariadb-node3
+    restart: always
+    networks:
+      - galera-cluster
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypassword
+      WSREP_CLUSTER_ADDRESS: "gcomm://mariadb-node1,mariadb-node2"
+      WSREP_NODE_NAME: "node3"
+    volumes:
+      - mariadb-data-node3:/var/lib/mysql
+    ports:
+      - "3309:3306"
+
+networks:
+  galera-cluster:
+
+volumes:
+  mariadb-data-node1:
+  mariadb-data-node2:
+  mariadb-data-node3:
